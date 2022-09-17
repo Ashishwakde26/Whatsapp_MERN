@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AppBar, Box, List, ListItem, styled, Typography } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import { qrCodeImage } from '../constants/data';
 import { GoogleLogin } from '@react-oauth/google';
 import jwt_decode from "jwt-decode";
+import { AccountState } from '../../context/Accountprovider'
 
 
 
@@ -23,11 +24,16 @@ const dialogstyle = {
 
     const Logindialog = () => {
 
+    const { account, setaccount } = AccountState();
+
     const onLoginSuccess = (res) => {
-        console.log(res.credential);
         const decode = jwt_decode(res.credential);
-        console.log(decode);
+        setaccount(decode);
     }
+
+    // useEffect(() => {
+    //     onLoginSuccess();
+    // })
 
     const onLoginError = (err) => {
         console.log(err);

@@ -1,16 +1,30 @@
-import React, { useEffect } from 'react';
+import { Box } from '@mui/system';
+import React, { useEffect, useState } from 'react';
 import { getUsers } from '../../../../service/api';
+import Friend from './Friend';
 
 const Conversation = () => {
 
-useEffect(() => {
-    getUsers()
-},[])
+    const [user, setuser] = useState([]);
+
+    useEffect(() => {
+        const fetchuser = async () => {
+            const data = await getUsers()
+            setuser(data.users);
+        }
+        fetchuser();
+    },[])
+
+    console.log(user);
 
     return (
-        <div>
-            This is conversation.
-        </div>
+        <Box>
+            {
+            user && user.map((usersdata, index) => (
+                <Friend user={usersdata}/>
+            ))
+            }            
+        </Box>
     )
 }
 
